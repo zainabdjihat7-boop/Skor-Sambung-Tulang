@@ -29,8 +29,8 @@
    Skor Kartu
    Warna utama: biru indigo (--main-a) dan teal (--main-b)
    Warna sekunder: dasar pastel lavender (--bg)
-   Warna juara/tanda: k1 teal, k2-k3 teal lembut, k4 slate netral,
-   k5 tanah liat, ks emas, kd ungu, kx marun
+   Warna juara/tanda: k1-k5 gradasi hijau (terang ke pastel), ks emas,
+   kd merah muda, kx merah terang
    Tata letak: 1 kolom (HP), 2 kolom (tablet), 3 kolom (landscape)
 ------------------------------------------------------------------- */
 :root {
@@ -46,13 +46,15 @@
   --main-b2: #0b8576;
   --tile1: #ffffff;
   --tile2: #eff1fc;
-  --glass1: rgba(255, 255, 255, .78);
-  --glass2: rgba(255, 255, 255, .56);
+  --glass1: rgba(255, 255, 255, .88);
+  --glass2: rgba(255, 255, 255, .78);
   --glass-edge: rgba(255, 255, 255, .9);
   --line: rgba(60, 75, 150, .16);
   --line-strong: rgba(60, 75, 150, .30);
   --danger: #a3294a;
   --sh: 36, 48, 120;
+  --wall: linear-gradient(158deg, #3a2bd6 0%, #7b2cd8 36%, #d92f9c 70%, #ff7a45 100%);
+  --wall-op: 1;
   --f-display: "Outfit", "Segoe UI", system-ui, sans-serif;
   --f-body: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   color-scheme: light;
@@ -78,6 +80,8 @@
     --line-strong: rgba(150, 165, 255, .32);
     --danger: #ff93a9;
     --sh: 0, 0, 0;
+    --wall: linear-gradient(158deg, #140a46 0%, #2c0f63 40%, #5b1458 75%, #6e2a1c 100%);
+    --wall-op: .62;
     color-scheme: dark;
   }
 }
@@ -101,18 +105,20 @@
   --line-strong: rgba(150, 165, 255, .32);
   --danger: #ff93a9;
   --sh: 0, 0, 0;
+  --wall: linear-gradient(158deg, #140a46 0%, #2c0f63 40%, #5b1458 75%, #6e2a1c 100%);
+  --wall-op: .62;
   color-scheme: dark;
 }
 
 /* Warna tiap juara dan tanda */
-.k1 { --kc: #22c9aa; --kc2: #0c9a84; --ke: #07705f; --kfg: #ffffff; }
-.k2 { --kc: #80ddcc; --kc2: #57c9b5; --ke: #33a592; --kfg: #04443a; }
-.k3 { --kc: #b7ede2; --kc2: #90dece; --ke: #62bcac; --kfg: #0a4f44; }
-.k4 { --kc: #c8d0de; --kc2: #a9b4c9; --ke: #8794ad; --kfg: #27304a; }
-.k5 { --kc: #eaa9a0; --kc2: #d98a82; --ke: #b8625a; --kfg: #4a1713; }
+.k1 { --kc: #3fe07a; --kc2: #17b852; --ke: #0b8a38; --kfg: #ffffff; }
+.k2 { --kc: #78e8a0; --kc2: #52d37f; --ke: #2fab5c; --kfg: #063d1b; }
+.k3 { --kc: #a8f0c3; --kc2: #88e3a9; --ke: #5fc183; --kfg: #0a4a22; }
+.k4 { --kc: #cff7de; --kc2: #b6edc9; --ke: #90d1a8; --kfg: #14502a; }
+.k5 { --kc: #f1fcf5; --kc2: #dff5e7; --ke: #b9ddc6; --kfg: #2a5a3a; }
 .ks { --kc: #ffd84d; --kc2: #eba700; --ke: #b57b00; --kfg: #4a3200; }
-.kd { --kc: #a688f2; --kc2: #7a58da; --ke: #5636b3; --kfg: #ffffff; }
-.kx { --kc: #b84660; --kc2: #7d1f39; --ke: #5a1227; --kfg: #ffffff; }
+.kd { --kc: #ffa6cf; --kc2: #f56aa9; --ke: #c63a80; --kfg: #5a0b33; }
+.kx { --kc: #ff5a63; --kc2: #e11d2e; --ke: #a30f1d; --kfg: #ffffff; }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -129,22 +135,26 @@ body {
   overflow-x: hidden;
 }
 
-/* Wallpaper abstrak: kabut warna + bentuk organik + butiran halus */
+/* Wallpaper: gradasi berani + titik halftone + karakter kartu remi bergaya stiker */
 body::before {
   content: "";
-  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  position: fixed; inset: 0; z-index: -3; pointer-events: none;
   background:
-    radial-gradient(60vmax 48vmax at 4% -6%, rgba(74, 105, 232, .26), transparent 62%),
-    radial-gradient(52vmax 44vmax at 104% 8%, rgba(20, 176, 155, .22), transparent 62%),
-    radial-gradient(58vmax 46vmax at 78% 108%, rgba(176, 140, 255, .22), transparent 62%),
-    radial-gradient(40vmax 32vmax at -4% 96%, rgba(255, 255, 255, .55), transparent 62%);
+    radial-gradient(rgba(255, 255, 255, .16) 1.6px, transparent 1.9px) 0 0 / 20px 20px,
+    var(--wall);
 }
-body::after {
-  content: "";
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background-size: cover; background-position: center; background-repeat: no-repeat;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234a69e8' stop-opacity='.20'/%3E%3Cstop offset='1' stop-color='%2314b09b' stop-opacity='.10'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='1' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23a688f2' stop-opacity='.18'/%3E%3Cstop offset='1' stop-color='%234a69e8' stop-opacity='.04'/%3E%3C/linearGradient%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .3 0 0 0 0 .55 0 0 0 .55 0'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M-120 720C160 520 420 940 760 740S1360 420 1740 640V1120H-120Z' fill='url(%23a)'/%3E%3Cpath d='M-120 860C240 700 520 1020 900 860S1400 640 1740 800V1120H-120Z' fill='url(%23b)'/%3E%3Ccircle cx='1330' cy='170' r='250' fill='none' stroke='%234a69e8' stroke-opacity='.13' stroke-width='2'/%3E%3Ccircle cx='1330' cy='170' r='185' fill='none' stroke='%2314b09b' stroke-opacity='.14' stroke-width='2'/%3E%3Ccircle cx='1330' cy='170' r='120' fill='%23ffffff' fill-opacity='.18'/%3E%3Cellipse cx='210' cy='210' rx='300' ry='120' transform='rotate(-24 210 210)' fill='%23ffffff' fill-opacity='.20'/%3E%3Cellipse cx='260' cy='250' rx='210' ry='70' transform='rotate(-24 260 250)' fill='none' stroke='%234a69e8' stroke-opacity='.12' stroke-width='2'/%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.10'/%3E%3C/svg%3E");
-}
+.wall { position: fixed; inset: 0; z-index: -2; pointer-events: none; opacity: var(--wall-op); overflow: hidden; }
+.wall svg { display: block; width: 100%; height: 100%; }
+.wall.wl { display: none; }
+@media (min-aspect-ratio: 1/1) { .wall.wp { display: none; } .wall.wl { display: block; } }
+
+/* Kredit & ornamen */
+.credit { width: fit-content; margin: 0 auto 6px; padding: 3px 12px; border-radius: 999px; background: rgba(20, 8, 70, .32); text-align: center; font: 600 11px/1.2 var(--f-body); letter-spacing: .14em; color: rgba(255, 255, 255, .85); text-shadow: 0 1px 2px rgba(0, 0, 0, .35); }
+.top h1 { color: #fff; text-shadow: 0 2px 0 rgba(20, 8, 70, .35), 0 8px 18px rgba(20, 8, 70, .35); }
+.top .sub { color: rgba(255, 255, 255, .9); text-shadow: 0 1px 2px rgba(20, 8, 70, .5); }
+.suits { display: flex; justify-content: center; gap: 14px; margin: 18px 0 0; font-size: 16px; line-height: 1; color: rgba(255, 255, 255, .7); letter-spacing: 0; }
+.suits span:nth-child(2n+1) { color: rgba(255, 255, 255, .9); }
+.suits .rd { color: #ffb3c7; }
 
 .app { max-width: 1600px; margin: 0 auto; padding: 14px 16px calc(40px + env(safe-area-inset-bottom)); }
 
@@ -178,8 +188,8 @@ h1 { margin: 0; font: 700 26px/1.1 var(--f-display); letter-spacing: -.01em; }
   position: relative;
   background: var(--glass1);
   background: linear-gradient(180deg, var(--glass1), var(--glass2));
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(6px) saturate(1.2);
+  backdrop-filter: blur(6px) saturate(1.2);
   border: 1px solid var(--glass-edge);
   border-radius: 22px;
   padding: 16px;
@@ -301,9 +311,9 @@ h2 { margin: 0; font: 600 18px/1.2 var(--f-display); letter-spacing: -.005em; }
   box-shadow: 0 2px 0 var(--ke), inset 0 1px 0 rgba(255, 255, 255, .4);
 }
 .pbadge.empty { color: var(--muted); background: transparent; box-shadow: none; border: 1px dashed var(--line-strong); font: 500 12px/1 var(--f-body); }
-.keys { display: grid; grid-template-columns: repeat(15, 1fr); gap: 9px; }
-.key { grid-column: span 3; }
-.key.mk { grid-column: span 5; }
+.keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.key { grid-column: span 1; }
+.key.mk { grid-column: span 1; }
 .key {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   min-height: 60px; padding: 6px 2px; font-family: var(--f-display); color: var(--ink);
@@ -365,23 +375,28 @@ h2 { margin: 0; font: 600 18px/1.2 var(--f-display); letter-spacing: -.005em; }
 .hist .ht0 { display: block; margin-top: 4px; font: 600 11px/1 var(--f-body); color: var(--muted); }
 
 /* Riwayat klasemen (arsip sesi) */
-.arch { display: grid; gap: 10px; }
+.archwrap { margin-top: 16px; }
+.arch { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .arch { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .ae {
   padding: 12px; border-radius: 16px; border: 1px solid var(--line);
   background: var(--tile1);
   background: linear-gradient(180deg, var(--tile1), var(--tile2));
   box-shadow: 0 3px 0 var(--line), inset 0 1px 0 rgba(255, 255, 255, .5);
 }
-.ah { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.ah { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
 .ad { font: 600 14px/1.25 var(--f-display); }
 .ad small { display: block; color: var(--muted); font: 500 12px/1.3 var(--f-body); }
-.ar { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px dashed var(--line-strong); }
-.ar .n { font: 600 13px/1 var(--f-display); color: var(--muted); }
-.ar .p { overflow-wrap: anywhere; }
-.ar b { font: 700 16px/1 var(--f-display); }
-.ar b.neg { color: var(--danger); }
-.ar.top .n { color: var(--main-b2); }
-.ar.top .p { font-weight: 700; }
+.arow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.at { min-width: 0; padding: 7px 4px 6px; border-radius: 12px; text-align: center; background: rgba(120, 130, 200, .10); border: 1px solid var(--line); }
+.at .n { display: block; font: 600 11px/1 var(--f-display); color: var(--muted); }
+.at .p { display: block; margin-top: 3px; font-size: 12.5px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.at b { display: block; margin-top: 3px; font: 700 17px/1 var(--f-display); }
+.at b.neg { color: var(--danger); }
+.at.top { background: color-mix(in srgb, #3fe07a 18%, transparent); border-color: color-mix(in srgb, #17b852 45%, transparent); }
+.at.top .n { color: #0b8a38; }
+.at.top .p { font-weight: 700; }
+.moreBtn { display: block; margin: 12px auto 0; }
 .empty-note { margin: 0; padding: 22px 12px; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong); border-radius: 16px; }
 
 /* Pengaturan */
@@ -399,8 +414,8 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   border: 1px solid var(--line-strong); border-radius: 13px;
   box-shadow: inset 0 2px 4px rgba(var(--sh), .12);
 }
-.foot { margin: 16px 0 0; text-align: center; color: var(--muted); font-size: 12.5px; }
-.foot.warn { color: var(--danger); }
+.foot { margin: 8px auto 0; width: fit-content; max-width: 100%; padding: 6px 12px; border-radius: 999px; text-align: center; color: rgba(255, 255, 255, .92); background: rgba(20, 8, 70, .34); font-size: 12.5px; }
+.foot.warn { color: #ffd1da; background: rgba(120, 10, 40, .5); }
 
 /* Dialog dan toast */
 .modal { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(10, 14, 36, .55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
@@ -423,7 +438,151 @@ details[open].card > summary::after { transform: rotate(-135deg); }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+<filter id="stk" x="-15%" y="-15%" width="130%" height="130%">
+  <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="d"/>
+  <feGaussianBlur in="d" stdDeviation="6" result="b"/>
+  <feOffset in="b" dy="7" result="s"/>
+  <feFlood flood-color="#0b0630" flood-opacity=".4"/><feComposite in2="s" operator="in" result="sh"/>
+  <feFlood flood-color="#fff"/><feComposite in2="d" operator="in" result="w"/>
+  <feMerge><feMergeNode in="sh"/><feMergeNode in="w"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<symbol id="sp" viewBox="0 0 24 24"><path d="M12 2C12 2 4 9 4 14a4 4 0 0 0 7 2.5C10.8 18.5 10 20 9 21h6c-1-1-1.8-2.5-2-4.5a4 4 0 0 0 7-2.5C20 9 12 2 12 2z"/></symbol>
+<symbol id="ht" viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5A4.5 4.5 0 0 1 12 6.5A4.5 4.5 0 0 1 21 8.5C21 14.5 12 21 12 21z"/></symbol>
+<symbol id="dm" viewBox="0 0 24 24"><path d="M12 2L21 12L12 22L3 12z"/></symbol>
+<symbol id="cl" viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 0-3.5 6A4.5 4.5 0 1 0 11 15.5C10.8 18 10 19.5 8.5 21h7c-1.5-1.5-2.3-3-2.5-5.5A4.5 4.5 0 1 0 15.5 9A4 4 0 0 0 12 3z"/></symbol>
+<symbol id="spark" viewBox="0 0 24 24"><path d="M12 0C13 7 17 11 24 12C17 13 13 17 12 24C11 17 7 13 0 12C7 11 11 7 12 0z"/></symbol>
+<symbol id="bolt" viewBox="0 0 24 24"><path d="M14 0L3 14h7l-2 10L21 9h-7z"/></symbol>
+
+<symbol id="king" viewBox="0 0 200 250"><g stroke="#1b1340" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+  <path d="M14 250C14 196 52 178 100 178s86 18 86 72z" fill="#7c4dff"/>
+  <path d="M74 180l26 48 26-48" fill="#5b33d6"/>
+  <rect x="86" y="150" width="28" height="36" rx="8" fill="#e9a77a"/>
+  <circle cx="52" cy="118" r="9" fill="#ffc9a0"/><circle cx="148" cy="118" r="9" fill="#ffc9a0"/>
+  <ellipse cx="100" cy="115" rx="48" ry="55" fill="#ffc9a0"/>
+  <path d="M53 118C50 170 78 192 100 192S150 170 147 118C138 146 118 152 100 152S62 146 53 118z" fill="#4a2c1d"/>
+  <path d="M72 140C84 128 96 134 100 140C104 134 116 128 128 140C116 156 104 148 100 146C96 148 84 156 72 140z" fill="#4a2c1d"/>
+  <path d="M88 168Q100 176 112 168" stroke="#ffc9a0" stroke-width="5" fill="none"/>
+  <rect x="56" y="96" width="40" height="27" rx="11" fill="#2b1d6b"/><rect x="104" y="96" width="40" height="27" rx="11" fill="#2b1d6b"/>
+  <path d="M96 106h8" fill="none"/>
+  <path d="M63 103l14 0M111 103l14 0" stroke="#22d3ee" stroke-width="4" fill="none"/>
+  <path d="M70 224Q100 244 130 224" stroke="#ffd23f" stroke-width="8" fill="none"/>
+  <circle cx="100" cy="238" r="9" fill="#ffd23f" stroke-width="4"/>
+  <g transform="rotate(-9 100 56)"><path d="M52 76L50 26L76 50L100 14L124 50L150 26L148 76z" fill="#ffd23f"/><rect x="50" y="68" width="100" height="15" rx="5" fill="#ffb300"/>
+   <circle cx="50" cy="24" r="6" fill="#ff3b57" stroke-width="3"/><circle cx="100" cy="13" r="6" fill="#22d3ee" stroke-width="3"/><circle cx="150" cy="24" r="6" fill="#ff3b57" stroke-width="3"/><circle cx="100" cy="52" r="6" fill="#ff3b57" stroke-width="3"/></g>
+</g></symbol>
+
+<symbol id="queen" viewBox="0 0 200 250"><g stroke="#1b1340" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+  <path d="M40 112C28 170 30 224 46 246H154C170 224 172 170 160 112C156 60 44 60 40 112z" fill="#ff4fa3"/>
+  <path d="M26 250C26 200 58 184 100 184s74 16 74 66z" fill="#22d3ee"/>
+  <rect x="88" y="150" width="24" height="38" rx="8" fill="#f5b78a"/>
+  <ellipse cx="100" cy="116" rx="44" ry="52" fill="#ffd2b0"/>
+  <path d="M56 104C60 66 100 56 100 56s40 10 44 48C130 92 112 82 100 72C88 84 70 94 56 104z" fill="#ff4fa3"/>
+  <path d="M68 118q11-9 22 0M110 118q11-9 22 0" fill="none"/>
+  <path d="M68 118l-6-5M132 118l6-5" fill="none" stroke-width="4"/>
+  <circle cx="79" cy="124" r="4" fill="#1b1340" stroke="none"/><circle cx="121" cy="124" r="4" fill="#1b1340" stroke="none"/>
+  <circle cx="68" cy="138" r="7" fill="#ff7aa8" stroke="none" opacity=".7"/><circle cx="132" cy="138" r="7" fill="#ff7aa8" stroke="none" opacity=".7"/>
+  <path d="M88 146Q94 140 100 145Q106 140 112 146Q106 157 100 157Q94 157 88 146z" fill="#ff2e63" stroke-width="3"/>
+  <path d="M54 144C50 138 42 144 54 154C66 144 58 138 54 144z" fill="#ff3b57" stroke-width="3"/><path d="M146 144C142 138 134 144 146 154C158 144 150 138 146 144z" fill="#ff3b57" stroke-width="3"/>
+  <g transform="rotate(8 100 56)"><path d="M60 70L66 34L84 54L100 24L116 54L134 34L140 70z" fill="#ffd23f"/><path d="M100 40C96 34 90 40 100 50C110 40 104 34 100 40z" fill="#ff3b57" stroke-width="3"/>
+   <circle cx="66" cy="32" r="5" fill="#22d3ee" stroke-width="3"/><circle cx="134" cy="32" r="5" fill="#22d3ee" stroke-width="3"/></g>
+</g></symbol>
+
+<symbol id="jack" viewBox="0 0 200 250"><g stroke="#1b1340" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+  <path d="M10 250C10 200 48 180 100 180s90 20 90 70z" fill="#34d66b"/>
+  <path d="M56 184Q100 232 144 184" fill="#25b455"/>
+  <path d="M92 216v24M108 216v24" stroke="#fff" stroke-width="5" fill="none"/>
+  <rect x="86" y="150" width="28" height="36" rx="8" fill="#d9915f"/>
+  <ellipse cx="100" cy="118" rx="46" ry="52" fill="#e8a877"/>
+  <path d="M148 98C164 92 182 98 190 110C174 114 158 112 148 106z" fill="#2842c9"/>
+  <path d="M52 100C50 52 92 38 112 40C140 42 152 70 148 100C130 84 74 84 52 100z" fill="#3b5bff"/>
+  <circle cx="100" cy="42" r="5" fill="#ffd23f" stroke-width="3"/>
+  <circle cx="100" cy="68" r="14" fill="#fff" stroke-width="3.5"/><path d="M100 58c-6 6-9 9-9 12a4.5 4.5 0 0 0 8 2c0 4-1 6-3 8h8c-2-2-3-4-3-8a4.5 4.5 0 0 0 8-2c0-3-3-6-9-12z" fill="#1b1340" stroke="none" transform="translate(0 -1) scale(1)"/>
+  <path d="M46 116C46 34 154 34 154 116" fill="none" stroke-width="15"/><path d="M46 116C46 34 154 34 154 116" fill="none" stroke="#ff3b57" stroke-width="7"/>
+  <rect x="36" y="104" width="18" height="36" rx="9" fill="#ff3b57"/><rect x="146" y="104" width="18" height="36" rx="9" fill="#ff3b57"/>
+  <path d="M72 120q8-9 17 0" fill="none"/>
+  <circle cx="122" cy="119" r="6" fill="#1b1340" stroke="none"/><circle cx="124" cy="117" r="2" fill="#fff" stroke="none"/>
+  <path d="M76 140Q100 170 124 140z" fill="#fff"/>
+</g></symbol>
+
+<symbol id="joker" viewBox="0 0 200 250"><g stroke="#1b1340" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+  <path d="M20 250C20 204 56 186 100 186s80 18 80 64z" fill="#ff3b57"/>
+  <path d="M100 198l20 26-20 26-20-26zM50 216l14 18-14 16-14-18z" fill="#1b1340" stroke="none"/>
+  <path d="M54 182L66 206L80 186L92 208L100 188L108 208L120 186L134 206L146 182z" fill="#ffd23f"/>
+  <circle cx="48" cy="118" r="13" fill="#34d66b"/><circle cx="152" cy="118" r="13" fill="#34d66b"/>
+  <ellipse cx="100" cy="122" rx="46" ry="50" fill="#fff"/>
+  <path d="M52 90C44 56 24 46 16 18C44 22 72 38 86 58C90 36 96 20 100 6C106 22 112 38 114 58C128 38 156 22 184 18C176 46 156 56 148 90z" fill="#7c4dff"/>
+  <path d="M50 82Q100 98 150 82L148 96Q100 112 52 96z" fill="#ffd23f"/>
+  <path d="M100 38l10 14-10 14-10-14z" fill="#ff3b57" stroke-width="3"/>
+  <circle cx="16" cy="18" r="9" fill="#ffd23f" stroke-width="3.5"/><circle cx="100" cy="6" r="9" fill="#ffd23f" stroke-width="3.5"/><circle cx="184" cy="18" r="9" fill="#ffd23f" stroke-width="3.5"/>
+  <path d="M60 116l13-15 13 15-13 15z" fill="#22d3ee" stroke-width="3.5"/><path d="M114 116l13-15 13 15-13 15z" fill="#22d3ee" stroke-width="3.5"/>
+  <circle cx="73" cy="116" r="4" fill="#1b1340" stroke="none"/><circle cx="127" cy="116" r="4" fill="#1b1340" stroke="none"/>
+  <circle cx="100" cy="130" r="9" fill="#ff3b57" stroke-width="3.5"/>
+  <path d="M58 142Q100 192 142 142Q100 158 58 142z" fill="#c2123a"/>
+  <path d="M70 148Q100 164 130 148" stroke="#fff" stroke-width="5" fill="none"/>
+  <path d="M52 138l6 8-6 8-6-8z" fill="#ff3b57" stroke="none"/><path d="M148 138l6 8-6 8-6-8z" fill="#ff3b57" stroke="none"/>
+</g></symbol>
+
+<symbol id="jokercard" viewBox="0 0 200 280">
+  <rect x="4" y="4" width="192" height="272" rx="18" fill="#fff" stroke="#1b1340" stroke-width="5"/>
+  <rect x="14" y="14" width="172" height="252" rx="12" fill="#ffe14d" stroke="#1b1340" stroke-width="3"/>
+  <circle cx="100" cy="140" r="70" fill="#ff4fa3" stroke="#1b1340" stroke-width="3"/>
+  <use href="#joker" x="28" y="52" width="144" height="180"/>
+  <text x="26" y="44" font-family="Outfit,Segoe UI,sans-serif" font-weight="900" font-size="26" fill="#1b1340">J</text>
+  <use href="#spark" x="22" y="48" width="16" height="16" fill="#7c4dff"/>
+  <text x="100" y="262" text-anchor="middle" font-family="Outfit,Segoe UI,sans-serif" font-weight="900" font-size="22" letter-spacing="3" fill="#1b1340">JOKER</text>
+</symbol>
+
+<symbol id="acecard" viewBox="0 0 200 280">
+  <rect x="4" y="4" width="192" height="272" rx="18" fill="#fff" stroke="#1b1340" stroke-width="5"/>
+  <circle cx="100" cy="140" r="72" fill="#22d3ee" stroke="#1b1340" stroke-width="3"/>
+  <circle cx="100" cy="140" r="52" fill="#ffd23f"/>
+  <use href="#sp" x="34" y="74" width="132" height="132" fill="#1b1340"/>
+  <use href="#spark" x="128" y="62" width="24" height="24" fill="#fff"/>
+  <text x="24" y="52" font-family="Outfit,Segoe UI,sans-serif" font-weight="900" font-size="38" fill="#1b1340">A</text>
+  <use href="#sp" x="24" y="58" width="22" height="22" fill="#1b1340"/>
+  <g transform="rotate(180 100 140)"><text x="24" y="52" font-family="Outfit,Segoe UI,sans-serif" font-weight="900" font-size="38" fill="#1b1340">A</text><use href="#sp" x="24" y="58" width="22" height="22" fill="#1b1340"/></g>
+</symbol>
+
+<g id="confetti">
+  <use href="#sp" x="0" y="0" width="22" height="22" fill="#fff" opacity=".25" transform="rotate(-14)"/>
+</g>
+</defs></svg>
+
+<div class="wall wp" aria-hidden="true"><svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
+  <g fill="#fff">
+    <use href="#spark" x="44" y="190" width="26" height="26" opacity=".55"/><use href="#spark" x="330" y="330" width="18" height="18" opacity=".5"/><use href="#spark" x="180" y="560" width="22" height="22" opacity=".45"/>
+    <use href="#bolt" x="200" y="120" width="26" height="26" fill="#ffe14d" opacity=".7" transform="rotate(14 213 133)"/><use href="#bolt" x="30" y="470" width="24" height="24" fill="#22d3ee" opacity=".7" transform="rotate(-18 42 482)"/>
+    <use href="#sp" x="140" y="260" width="20" height="20" opacity=".2"/><use href="#ht" x="320" y="250" width="22" height="22" opacity=".22"/><use href="#dm" x="120" y="420" width="18" height="18" opacity=".2"/><use href="#cl" x="210" y="400" width="22" height="22" opacity=".2"/>
+    <use href="#ht" x="360" y="660" width="18" height="18" opacity=".25"/><use href="#cl" x="170" y="740" width="18" height="18" opacity=".25"/><use href="#sp" x="30" y="760" width="16" height="16" opacity=".25"/><use href="#dm" x="270" y="765" width="16" height="16" opacity=".25"/>
+  </g>
+  <g filter="url(#stk)">
+    <use href="#jokercard" x="262" y="82" width="104" height="146" transform="rotate(12 314 155)"/>
+    <use href="#king" x="-26" y="300" width="132" height="165" transform="rotate(-8 40 380)"/>
+    <use href="#queen" x="288" y="440" width="132" height="165" transform="rotate(7 354 520)"/>
+    <use href="#acecard" x="-6" y="590" width="112" height="157" transform="rotate(-14 50 668)"/>
+    <use href="#jack" x="236" y="628" width="140" height="175" transform="rotate(-5 306 715)"/>
+  </g>
+</svg></div>
+
+<div class="wall wl" aria-hidden="true"><svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <g fill="#fff">
+    <use href="#spark" x="520" y="120" width="40" height="40" opacity=".5"/><use href="#spark" x="1180" y="420" width="30" height="30" opacity=".5"/><use href="#spark" x="880" y="760" width="34" height="34" opacity=".45"/><use href="#spark" x="300" y="360" width="28" height="28" opacity=".5"/>
+    <use href="#bolt" x="1000" y="80" width="46" height="46" fill="#ffe14d" opacity=".7" transform="rotate(14 1023 103)"/><use href="#bolt" x="420" y="640" width="42" height="42" fill="#22d3ee" opacity=".7" transform="rotate(-18 441 661)"/>
+    <use href="#sp" x="700" y="300" width="34" height="34" opacity=".18"/><use href="#ht" x="1100" y="210" width="36" height="36" opacity=".2"/><use href="#dm" x="560" y="520" width="30" height="30" opacity=".18"/><use href="#cl" x="900" y="480" width="36" height="36" opacity=".18"/>
+    <use href="#ht" x="1000" y="840" width="26" height="26" opacity=".28"/><use href="#cl" x="640" y="850" width="26" height="26" opacity=".28"/><use href="#sp" x="240" y="850" width="24" height="24" opacity=".28"/><use href="#dm" x="1350" y="850" width="24" height="24" opacity=".28"/>
+  </g>
+  <g filter="url(#stk)">
+    <use href="#king" x="20" y="470" width="290" height="362" transform="rotate(-8 165 650)"/>
+    <use href="#queen" x="1290" y="40" width="270" height="338" transform="rotate(7 1425 210)"/>
+    <use href="#jack" x="1270" y="500" width="300" height="375" transform="rotate(-5 1420 690)"/>
+    <use href="#jokercard" x="1020" y="20" width="170" height="238" transform="rotate(-10 1105 139)"/>
+    <use href="#acecard" x="500" y="560" width="190" height="266" transform="rotate(12 595 693)"/>
+  </g>
+</svg></div>
 <div class="app">
+  <p class="credit">Created by @syahruldj__</p>
   <header class="top">
     <div class="brand">
       <span class="logo" aria-hidden="true">
@@ -451,10 +610,6 @@ details[open].card > summary::after { transform: rotate(-135deg); }
         <div class="ch"><h2 id="hRekor">Rekor sementara</h2></div>
         <div class="recs" id="records"></div>
       </section>
-      <section class="card" aria-labelledby="hArsip">
-        <div class="ch"><h2 id="hArsip">Riwayat klasemen</h2></div>
-        <div class="arch" id="archive"></div>
-      </section>
     </div>
 
     <div class="cB">
@@ -463,7 +618,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
           <h2 id="hInput">Game baru</h2>
           <span class="gno" id="gameNo"></span>
         </div>
-        <p class="hint">Pilih juara 1–5 atau tanda ★ / - / × untuk tiap pemain. Tekan lagi untuk membatalkan.</p>
+        <p class="hint">Pilih ★, juara 1–5, atau tanda - / × untuk tiap pemain. Tekan lagi untuk membatalkan.</p>
         <div id="inputRows"></div>
         <div class="msg" id="msg" role="status" aria-live="polite"></div>
         <div class="actions">
@@ -484,6 +639,12 @@ details[open].card > summary::after { transform: rotate(-135deg); }
     </div>
   </main>
 
+  <section class="card archwrap" aria-labelledby="hArsip">
+    <div class="ch"><h2 id="hArsip">Riwayat klasemen</h2></div>
+    <div class="arch" id="archive"></div>
+    <button class="btn sm moreBtn" id="archMore" type="button" hidden></button>
+  </section>
+
   <details class="card" id="settings">
     <summary>Pengaturan</summary>
     <h3 class="sec">Nama pemain</h3>
@@ -493,12 +654,23 @@ details[open].card > summary::after { transform: rotate(-135deg); }
     <h3 class="sec">Poin tanda</h3>
     <div class="sgrid" id="markFields"></div>
     <p class="hint" style="margin:14px 0 0">Setiap perubahan langsung menghitung ulang semua total dari riwayat game.</p>
+    <h3 class="sec">Cadangan &amp; pindah perangkat</h3>
+    <p class="hint" style="margin:0 0 10px">Salin data lalu kirim ke HP lain (mis. lewat WhatsApp), tempel di kotak ini di HP tujuan, lalu Impor.</p>
+    <textarea id="bkText" rows="3" spellcheck="false" placeholder="Data cadangan muncul / ditempel di sini" style="width:100%;box-sizing:border-box;border-radius:12px;border:1px solid var(--line, rgba(0,0,0,.2));padding:10px;font:12px/1.4 monospace;background:transparent;color:inherit"></textarea>
+    <div class="actions">
+      <button class="btn" id="bkCopy" type="button">Salin data</button>
+      <button class="btn" id="bkFile" type="button">Simpan file</button>
+      <button class="btn" id="bkPick" type="button">Pilih file…</button>
+      <button class="btn" id="bkImport" type="button">Impor dari kotak</button>
+      <input type="file" id="bkInput" accept=".json,application/json,text/plain" hidden>
+    </div>
     <div class="actions">
       <button class="btn" id="resetPts" type="button">Kembalikan poin bawaan</button>
       <button class="btn danger" id="resetAll" type="button">Mulai ulang tanpa menyimpan</button>
     </div>
   </details>
 
+  <div class="suits" aria-hidden="true"><span>♠</span><span class="rd">♥</span><span>♣</span><span class="rd">♦</span><span>♠</span><span class="rd">♥</span><span>♣</span><span class="rd">♦</span></div>
   <p class="foot" id="foot"></p>
 </div>
 
@@ -524,6 +696,8 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   var NUMS = ['1', '2', '3', '4', '5'];
   var MARKS = ['s', 'd', 'x'];
   var VALID = NUMS.concat(MARKS);
+  var KEYORDER = ['s', '1', '2', '3', '4', '5', 'd', 'x'];
+  var archOpen = false, ARCH_MAX = 4;
   var GLYPH = { s: '★', d: '-', x: '×' };
   var DEF = {
     players: ['Ediro', 'Radeno', 'Salamo', 'Fiqrio', 'Djo'],
@@ -556,11 +730,8 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   }
 
   /* ---------- Penyimpanan ---------- */
-  function load() {
-    try {
-      var raw = localStorage.getItem(KEY);
-      if (!raw) return;
-      var d = JSON.parse(raw);
+  function applyData(d) {
+    {
       if (Array.isArray(d.players)) {
         state.players = DEF.players.map(function (def, i) {
           return typeof d.players[i] === 'string' ? d.players[i] : def;
@@ -585,7 +756,55 @@ details[open].card > summary::after { transform: rotate(-135deg); }
       if (Array.isArray(d.draft) && d.draft.length === N) {
         draft = d.draft.map(function (p) { return VALID.indexOf(p) !== -1 ? p : null; });
       }
+    }
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      applyData(JSON.parse(raw));
     } catch (e) { storageOk = false; }
+  }
+  /* ---------- Cadangan ---------- */
+  function exportText() {
+    return JSON.stringify({ app: 'sambung-tulang', v: 1, players: state.players, pts: state.pts, games: state.games, archive: state.archive });
+  }
+  function importText(txt) {
+    var d;
+    try { d = JSON.parse(String(txt).trim()); } catch (e) { d = null; }
+    if (!d || typeof d !== 'object' || d.app !== 'sambung-tulang') { toast('Data tidak dikenali. Pastikan seluruh teks cadangan tersalin.'); return; }
+    var ng = Array.isArray(d.games) ? d.games.length : 0, na = Array.isArray(d.archive) ? d.archive.length : 0;
+    confirmBox({
+      title: 'Ganti data dengan cadangan?',
+      text: 'Cadangan berisi ' + ng + ' game dan ' + na + ' catatan Riwayat klasemen. Semua data di perangkat ini akan DIGANTI.',
+      ok: 'Ganti data'
+    }).then(function (yes) {
+      if (!yes) return;
+      state.players = DEF.players.slice(); state.pts = JSON.parse(JSON.stringify(DEF.pts));
+      state.games = []; state.archive = []; draft = draft.map(function () { return null; });
+      applyData(d);
+      save(); buildSettings(); renderAll();
+      $('#bkText').value = '';
+      toast('Data berhasil dipulihkan');
+    });
+  }
+  function copyBackup() {
+    var t = exportText(), ta = $('#bkText');
+    ta.value = t;
+    function fallback() { ta.focus(); ta.select(); try { document.execCommand('copy'); toast('Data disalin. Tempel di WhatsApp/Catatan.'); } catch (e) { toast('Tekan lama kotak teks lalu Salin.'); } }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () { toast('Data disalin. Tempel di WhatsApp/Catatan.'); }, fallback);
+    else fallback();
+  }
+  function fileBackup() {
+    try {
+      var b = new Blob([exportText()], { type: 'application/json' }), a = document.createElement('a');
+      var dt = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; };
+      a.href = URL.createObjectURL(b);
+      a.download = 'sambung-tulang-' + dt.getFullYear() + p(dt.getMonth() + 1) + p(dt.getDate()) + '.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+      toast('File cadangan disimpan');
+    } catch (e) { toast('Gagal menyimpan file. Pakai Salin data.'); }
   }
   function save() {
     try {
@@ -630,14 +849,14 @@ details[open].card > summary::after { transform: rotate(-135deg); }
         '<span class="rk">' + rank + '</span>' +
         '<div class="who"><div class="nm">' + esc(nameOf(i)) +
         (lead ? '<span class="tag">' + CROWN + 'Pemimpin</span>' : '') + '</div>' +
-        '<div class="mini">' + miniChip('1', 'Juara 1', c['1'][i]) + miniChip('s', 'Bintang', c.s[i]) + miniChip('x', 'Tanda silang', c.x[i]) + '</div></div>' +
+        '<div class="mini">' + miniChip('s', 'Bintang', c.s[i]) + miniChip('1', 'Juara 1', c['1'][i]) + miniChip('x', 'Tanda silang', c.x[i]) + '</div></div>' +
         '<span class="tot ' + (t[i] < 0 ? 'neg' : '') + '">' + fmt(t[i]) + '</span></li>';
     }).join('');
     $('#sub').textContent = hasGames ? state.games.length + ' game tercatat' : 'Belum ada game';
   }
   function renderRecords() {
     var c = counts();
-    var defs = [['1', 'Juara 1 terbanyak'], ['s', 'Bintang (★) terbanyak'], ['x', 'Tanda silang (×) terbanyak']];
+    var defs = [['s', 'Bintang (★) terbanyak'], ['1', 'Juara 1 terbanyak'], ['x', 'Tanda silang (×) terbanyak']];
     $('#records').innerHTML = defs.map(function (d) {
       var arr = c[d[0]], max = Math.max.apply(null, arr), names = [];
       if (max > 0) arr.forEach(function (n, i) { if (n === max) names.push(nameOf(i)); });
@@ -660,7 +879,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
     for (var i = 0; i < N; i++) {
       html += '<div class="prow" data-p="' + i + '">' +
         '<div class="phead"><span class="pname">' + esc(nameOf(i)) + '</span><span class="pbadge"></span></div>' +
-        '<div class="keys">' + NUMS.concat(MARKS).map(function (k) { return keyBtn(i, k); }).join('') + '</div>' +
+        '<div class="keys">' + KEYORDER.map(function (k) { return keyBtn(i, k); }).join('') + '</div>' +
         '</div>';
     }
     $('#inputRows').innerHTML = html;
@@ -750,20 +969,26 @@ details[open].card > summary::after { transform: rotate(-135deg); }
     } catch (e) { return new Date(ts).toDateString(); }
   }
   function renderArchive() {
-    var box = $('#archive');
+    var box = $('#archive'), more = $('#archMore');
     if (!state.archive.length) {
-      box.innerHTML = '<p class="empty-note">Belum ada. Ketuk Akhiri sesi di Klasemen untuk menyimpan peringkat hari ini.</p>';
+      box.innerHTML = '<p class="empty-note" style="grid-column:1/-1">Belum ada. Ketuk Akhiri sesi di Klasemen untuk menyimpan peringkat hari ini.</p>';
+      more.hidden = true;
       return;
     }
-    box.innerHTML = state.archive.map(function (a, idx) { return { a: a, idx: idx }; }).reverse().map(function (o) {
+    var list = state.archive.map(function (a, idx) { return { a: a, idx: idx }; }).reverse();
+    var total = list.length, long = total > ARCH_MAX;
+    if (long && !archOpen) list = list.slice(0, ARCH_MAX);
+    box.innerHTML = list.map(function (o) {
       var a = o.a;
       return '<div class="ae"><div class="ah"><div class="ad">' + esc(dateLabel(a.ts)) + '<small>' + a.games + ' game</small></div>' +
         '<button class="btn sm danger" type="button" data-del="' + o.idx + '">Hapus</button></div>' +
-        a.rows.map(function (r) {
-          return '<div class="ar' + (r.rank === 1 ? ' top' : '') + '"><span class="n">' + r.rank + '</span><span class="p">' + esc(r.name) +
+        '<div class="arow">' + a.rows.map(function (r) {
+          return '<div class="at' + (r.rank === 1 ? ' top' : '') + '"><span class="n">#' + r.rank + '</span><span class="p">' + esc(r.name) +
             '</span><b class="' + (r.total < 0 ? 'neg' : '') + '">' + fmt(r.total) + '</b></div>';
-        }).join('') + '</div>';
+        }).join('') + '</div></div>';
     }).join('');
+    more.hidden = !long;
+    more.textContent = archOpen ? 'Ringkas (tampilkan ' + ARCH_MAX + ' terbaru)' : 'Lihat semua (' + total + ')';
   }
   function endSession() {
     var n = state.games.length;
@@ -928,6 +1153,15 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   });
   $('#delLast').addEventListener('click', delLast);
   $('#resetAll').addEventListener('click', resetAll);
+  $('#archMore').addEventListener('click', function () { archOpen = !archOpen; renderArchive(); });
+  $('#bkCopy').addEventListener('click', copyBackup);
+  $('#bkFile').addEventListener('click', fileBackup);
+  $('#bkImport').addEventListener('click', function () { importText($('#bkText').value); });
+  $('#bkPick').addEventListener('click', function () { $('#bkInput').click(); });
+  $('#bkInput').addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0]; if (!f) return;
+    var r = new FileReader(); r.onload = function () { importText(r.result); }; r.readAsText(f); e.target.value = '';
+  });
   $('#endBtn').addEventListener('click', endSession);
   $('#archive').addEventListener('click', function (e) {
     var b = e.target.closest('[data-del]');
