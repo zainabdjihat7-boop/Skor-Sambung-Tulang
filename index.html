@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>Skor Kartu</title>
+<title>Sambung Tulang</title>
 <meta name="theme-color" content="#3f5fe0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Skor Kartu">
+<meta name="apple-mobile-web-app-title" content="Sambung Tulang">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -348,7 +348,7 @@ h2 { margin: 0; font: 600 18px/1.2 var(--f-display); letter-spacing: -.005em; }
   font: 600 13px/1.15 var(--f-display); padding: 9px 2px; border-radius: 10px; overflow-wrap: anywhere;
   box-shadow: 0 2px 0 var(--line);
 }
-.hist th.gn { width: 38px; font: 600 12px/1 var(--f-display); color: var(--muted); }
+.hist th.gn { width: 44px; font: 600 12px/1 var(--f-display); color: var(--muted); }
 .cell {
   padding: 5px 2px; border-radius: 12px;
   background: color-mix(in srgb, var(--kc) 22%, var(--tile1));
@@ -359,12 +359,29 @@ h2 { margin: 0; font: 600 18px/1.2 var(--f-display); letter-spacing: -.005em; }
 .chip { width: 18px; height: 18px; font-size: 11px; flex: none; }
 .cell .rt { font-size: 11.5px; color: var(--muted); line-height: 1.2; margin-top: 2px; }
 .cell .rt.neg { color: var(--danger); }
-.hist tfoot th, .hist tfoot td {
-  position: sticky; bottom: 0; z-index: 2; background: var(--sticky); padding: 9px 2px; border-radius: 10px;
-  font: 700 17px/1 var(--f-display); box-shadow: 0 -2px 0 var(--line);
+.hist .hn { display: block; font: 600 12.5px/1.15 var(--f-display); color: var(--muted); }
+.hist .ht { display: block; margin-top: 4px; font: 700 20px/1 var(--f-display); color: var(--ink); }
+.hist .ht.neg { color: var(--danger); }
+.hist .ht0 { display: block; margin-top: 4px; font: 600 11px/1 var(--f-body); color: var(--muted); }
+
+/* Riwayat klasemen (arsip sesi) */
+.arch { display: grid; gap: 10px; }
+.ae {
+  padding: 12px; border-radius: 16px; border: 1px solid var(--line);
+  background: var(--tile1);
+  background: linear-gradient(180deg, var(--tile1), var(--tile2));
+  box-shadow: 0 3px 0 var(--line), inset 0 1px 0 rgba(255, 255, 255, .5);
 }
-.hist tfoot td.neg { color: var(--danger); }
-.hist tfoot th { font-size: 12px; color: var(--muted); }
+.ah { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.ad { font: 600 14px/1.25 var(--f-display); }
+.ad small { display: block; color: var(--muted); font: 500 12px/1.3 var(--f-body); }
+.ar { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px dashed var(--line-strong); }
+.ar .n { font: 600 13px/1 var(--f-display); color: var(--muted); }
+.ar .p { overflow-wrap: anywhere; }
+.ar b { font: 700 16px/1 var(--f-display); }
+.ar b.neg { color: var(--danger); }
+.ar.top .n { color: var(--main-b2); }
+.ar.top .p { font-weight: 700; }
 .empty-note { margin: 0; padding: 22px 12px; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong); border-radius: 16px; }
 
 /* Pengaturan */
@@ -413,7 +430,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
         <svg viewBox="0 0 24 24"><path d="M12 2.6l2.8 6 6.5.8-4.8 4.4 1.3 6.4L12 17l-5.8 3.2 1.3-6.4L2.7 9.4l6.5-.8z" fill="#fff"/></svg>
       </span>
       <div>
-        <h1>Skor Kartu</h1>
+        <h1>Sambung Tulang</h1>
         <p class="sub" id="sub"></p>
       </div>
     </div>
@@ -423,12 +440,19 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   <main class="layout">
     <div class="cA">
       <section class="card" aria-labelledby="hKlas">
-        <div class="ch"><h2 id="hKlas">Klasemen</h2></div>
+        <div class="ch">
+          <h2 id="hKlas">Klasemen</h2>
+          <button class="btn sm" id="endBtn" type="button">Akhiri sesi</button>
+        </div>
         <ol class="stand" id="standings"></ol>
       </section>
       <section class="card" aria-labelledby="hRekor">
         <div class="ch"><h2 id="hRekor">Rekor sementara</h2></div>
         <div class="recs" id="records"></div>
+      </section>
+      <section class="card" aria-labelledby="hArsip">
+        <div class="ch"><h2 id="hArsip">Riwayat klasemen</h2></div>
+        <div class="arch" id="archive"></div>
       </section>
     </div>
 
@@ -470,7 +494,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
     <p class="hint" style="margin:14px 0 0">Setiap perubahan langsung menghitung ulang semua total dari riwayat game.</p>
     <div class="actions">
       <button class="btn" id="resetPts" type="button">Kembalikan poin bawaan</button>
-      <button class="btn danger" id="resetAll" type="button">Mulai ulang semua skor</button>
+      <button class="btn danger" id="resetAll" type="button">Mulai ulang tanpa menyimpan</button>
     </div>
   </details>
 
@@ -506,7 +530,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   };
   var CROWN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l4.6 4L12 5l4.4 7L21 8l-1.8 11H4.8z" fill="currentColor"/></svg>';
 
-  var state = { players: DEF.players.slice(), pts: Object.assign({}, DEF.pts), games: [] };
+  var state = { players: DEF.players.slice(), pts: Object.assign({}, DEF.pts), games: [], archive: [] };
   var draft = []; for (var z = 0; z < N; z++) draft.push(null);
   var storageOk = true;
 
@@ -551,6 +575,12 @@ details[open].card > summary::after { transform: rotate(-135deg); }
           return Array.isArray(g) && g.length === N && g.every(function (p) { return VALID.indexOf(p) !== -1; });
         });
       }
+      if (Array.isArray(d.archive)) {
+        state.archive = d.archive.filter(function (a) {
+          return a && typeof a.ts === 'number' && typeof a.games === 'number' && Array.isArray(a.rows) &&
+            a.rows.every(function (r) { return r && typeof r.name === 'string' && typeof r.total === 'number' && typeof r.rank === 'number'; });
+        });
+      }
       if (Array.isArray(d.draft) && d.draft.length === N) {
         draft = d.draft.map(function (p) { return VALID.indexOf(p) !== -1 ? p : null; });
       }
@@ -558,7 +588,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   }
   function save() {
     try {
-      localStorage.setItem(KEY, JSON.stringify({ v: 1, players: state.players, pts: state.pts, games: state.games, draft: draft }));
+      localStorage.setItem(KEY, JSON.stringify({ v: 1, players: state.players, pts: state.pts, games: state.games, archive: state.archive, draft: draft }));
     } catch (e) { storageOk = false; }
     updateFoot();
   }
@@ -591,6 +621,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
     for (var i = 0; i < N; i++) order.push(i);
     order.sort(function (a, b) { return (t[b] - t[a]) || (c['1'][b] - c['1'][a]) || (a - b); });
     var hasGames = state.games.length > 0;
+    $('#endBtn').disabled = !hasGames;
     $('#standings').innerHTML = order.map(function (i) {
       var rank = 1; for (var j = 0; j < N; j++) if (t[j] > t[i]) rank++;
       var lead = hasGames && rank === 1;
@@ -697,18 +728,78 @@ details[open].card > summary::after { transform: rotate(-135deg); }
       };
     }).reverse();
 
-    var head = '<thead><tr><th class="gn" scope="col">#</th>' +
-      state.players.map(function (_, i) { return '<th scope="col">' + esc(nameOf(i)) + '</th>'; }).join('') + '</tr></thead>';
+    var t = totals();
+    var head = '<thead><tr><th class="gn" scope="col"><span class="hn">#</span><span class="ht0">Total</span></th>' +
+      state.players.map(function (_, i) {
+        return '<th scope="col"><span class="hn">' + esc(nameOf(i)) + '</span><b class="ht' + (t[i] < 0 ? ' neg' : '') + '">' + fmt(t[i]) + '</b></th>';
+      }).join('') + '</tr></thead>';
     var body = '<tbody>' + rows.map(function (r) {
       return '<tr><th class="gn" scope="row">' + r.n + '</th>' + r.cells.map(function (c) {
         return '<td class="cell ' + kcls(c.p) + '"><div class="l1"><i class="chip">' + sym(c.p) + '</i><b>' + sgn(c.v) + '</b></div>' +
           '<div class="rt ' + (c.run < 0 ? 'neg' : '') + '">' + fmt(c.run) + '</div></td>';
       }).join('') + '</tr>';
     }).join('') + '</tbody>';
-    var t = totals();
-    var foot = '<tfoot><tr><th class="gn" scope="row">Total</th>' +
-      t.map(function (v) { return '<td class="' + (v < 0 ? 'neg' : '') + '">' + fmt(v) + '</td>'; }).join('') + '</tr></tfoot>';
-    box.innerHTML = '<table class="hist">' + head + body + foot + '</table>';
+    box.innerHTML = '<table class="hist">' + head + body + '</table>';
+  }
+
+  /* ---------- Riwayat klasemen (arsip sesi) ---------- */
+  function dateLabel(ts) {
+    try {
+      return new Date(ts).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) { return new Date(ts).toDateString(); }
+  }
+  function renderArchive() {
+    var box = $('#archive');
+    if (!state.archive.length) {
+      box.innerHTML = '<p class="empty-note">Belum ada. Ketuk Akhiri sesi di Klasemen untuk menyimpan peringkat hari ini.</p>';
+      return;
+    }
+    box.innerHTML = state.archive.map(function (a, idx) { return { a: a, idx: idx }; }).reverse().map(function (o) {
+      var a = o.a;
+      return '<div class="ae"><div class="ah"><div class="ad">' + esc(dateLabel(a.ts)) + '<small>' + a.games + ' game</small></div>' +
+        '<button class="btn sm danger" type="button" data-del="' + o.idx + '">Hapus</button></div>' +
+        a.rows.map(function (r) {
+          return '<div class="ar' + (r.rank === 1 ? ' top' : '') + '"><span class="n">' + r.rank + '</span><span class="p">' + esc(r.name) +
+            '</span><b class="' + (r.total < 0 ? 'neg' : '') + '">' + fmt(r.total) + '</b></div>';
+        }).join('') + '</div>';
+    }).join('');
+  }
+  function endSession() {
+    var n = state.games.length;
+    if (!n) return;
+    confirmBox({
+      title: 'Akhiri sesi dan simpan klasemen?',
+      text: 'Peringkat dan total poin saat ini disimpan ke Riwayat klasemen. Setelah itu ' + n + ' game di sesi ini dikosongkan untuk sesi baru.',
+      ok: 'Simpan & mulai baru'
+    }).then(function (yes) {
+      if (!yes) return;
+      var t = totals(), c = counts(), order = [];
+      for (var i = 0; i < N; i++) order.push(i);
+      order.sort(function (a, b) { return (t[b] - t[a]) || (c['1'][b] - c['1'][a]) || (a - b); });
+      var rows = order.map(function (i) {
+        var rank = 1; for (var j = 0; j < N; j++) if (t[j] > t[i]) rank++;
+        return { name: nameOf(i), total: t[i], rank: rank };
+      });
+      state.archive.push({ ts: Date.now(), games: n, rows: rows });
+      state.games = [];
+      draft = draft.map(function () { return null; });
+      save(); renderAll();
+      toast('Klasemen sesi ini tersimpan');
+    });
+  }
+  function delArchive(idx) {
+    var a = state.archive[idx];
+    if (!a) return;
+    confirmBox({
+      title: 'Hapus catatan klasemen ini?',
+      text: 'Catatan ' + dateLabel(a.ts) + ' akan dihapus dari Riwayat klasemen.',
+      ok: 'Hapus'
+    }).then(function (yes) {
+      if (!yes) return;
+      state.archive.splice(idx, 1);
+      save(); renderAll();
+      toast('Catatan dihapus');
+    });
   }
 
   /* ---------- Dialog & toast ---------- */
@@ -767,9 +858,9 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   function resetAll() {
     var n = state.games.length;
     confirmBox({
-      title: 'Mulai ulang semua skor?',
+      title: 'Mulai ulang tanpa menyimpan?',
       text: n
-        ? 'Seluruh riwayat (' + n + ' game) akan dihapus dan semua total kembali ke 0. Nama dan pengaturan poin tetap.'
+        ? 'Seluruh riwayat (' + n + ' game) akan dihapus tanpa disimpan ke Riwayat klasemen. Untuk menyimpan peringkat dulu, pakai Akhiri sesi. Nama dan pengaturan poin tetap.'
         : 'Input game yang sedang diisi akan dikosongkan.',
       ok: 'Mulai ulang'
     }).then(function (yes) {
@@ -814,7 +905,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   }
 
   /* ---------- Render & init ---------- */
-  function renderAll() { renderStandings(); renderRecords(); renderHistory(); buildInput(); }
+  function renderAll() { renderStandings(); renderRecords(); renderArchive(); renderHistory(); buildInput(); }
 
   load();
   updateFoot();
@@ -836,6 +927,11 @@ details[open].card > summary::after { transform: rotate(-135deg); }
   });
   $('#delLast').addEventListener('click', delLast);
   $('#resetAll').addEventListener('click', resetAll);
+  $('#endBtn').addEventListener('click', endSession);
+  $('#archive').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-del]');
+    if (b) delArchive(+b.dataset.del);
+  });
   $('#resetPts').addEventListener('click', function () {
     state.pts = Object.assign({}, DEF.pts);
     syncSettings(); save(); renderAll();
