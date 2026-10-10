@@ -575,7 +575,7 @@ details[open].card > summary::after { transform: rotate(-135deg); }
     return t;
   }
   function counts() {
-    var c = { '1': [], s: [], d: [] };
+    var c = { '1': [], s: [], x: [] };
     Object.keys(c).forEach(function (k) { for (var i = 0; i < N; i++) c[k].push(0); });
     state.games.forEach(function (g) { g.forEach(function (p, i) { if (c[p]) c[p][i]++; }); });
     return c;
@@ -598,14 +598,14 @@ details[open].card > summary::after { transform: rotate(-135deg); }
         '<span class="rk">' + rank + '</span>' +
         '<div class="who"><div class="nm">' + esc(nameOf(i)) +
         (lead ? '<span class="tag">' + CROWN + 'Pemimpin</span>' : '') + '</div>' +
-        '<div class="mini">' + miniChip('1', 'Juara 1', c['1'][i]) + miniChip('s', 'Bintang', c.s[i]) + miniChip('d', 'Tanda strip', c.d[i]) + '</div></div>' +
+        '<div class="mini">' + miniChip('1', 'Juara 1', c['1'][i]) + miniChip('s', 'Bintang', c.s[i]) + miniChip('x', 'Tanda silang', c.x[i]) + '</div></div>' +
         '<span class="tot ' + (t[i] < 0 ? 'neg' : '') + '">' + fmt(t[i]) + '</span></li>';
     }).join('');
     $('#sub').textContent = hasGames ? state.games.length + ' game tercatat' : 'Belum ada game';
   }
   function renderRecords() {
     var c = counts();
-    var defs = [['1', 'Juara 1 terbanyak'], ['s', 'Bintang (★) terbanyak'], ['d', 'Tanda strip (-) terbanyak']];
+    var defs = [['1', 'Juara 1 terbanyak'], ['s', 'Bintang (★) terbanyak'], ['x', 'Tanda silang (×) terbanyak']];
     $('#records').innerHTML = defs.map(function (d) {
       var arr = c[d[0]], max = Math.max.apply(null, arr), names = [];
       if (max > 0) arr.forEach(function (n, i) { if (n === max) names.push(nameOf(i)); });
